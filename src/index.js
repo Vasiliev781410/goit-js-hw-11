@@ -13,7 +13,7 @@ const instance = axios.create({
 const URL = 'https://pixabay.com/api/?key='+AUTH_TOKEN+'&q=';
 const PER_PAGE = '&per_page=40';
 
-searchForm = document.querySelector('.search-form');
+searchForm = document.querySelector(".search-form");
 
 searchInput = document.querySelector('input[name="searchQuery"]');
 searchInput.classList.add("search-form__input");
@@ -21,9 +21,9 @@ searchInput.classList.add("search-form__input");
 btnSubmit = document.querySelector('button[type="submit"]');
 btnSubmit.textContent = "";
 
-btnLoad = document.querySelector('.load-more');
+btnLoad = document.querySelector(".load-more");
 btnLoad.classList.add("is-hidden");
-gallery = document.querySelector('.gallery');
+gallery = document.querySelector(".gallery");
 
 let name = "";
 
