@@ -1,0 +1,12 @@
+.gallery{
+    margin-top: 75px;
+    display: flex; 
+    justify-content: center;   
+    gap: 15px;
+    flex-wrap: wrap;
+}
+
+.is-hidden{
+    opacity: 0;
+}
+

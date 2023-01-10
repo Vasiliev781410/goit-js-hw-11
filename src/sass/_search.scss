@@ -1,0 +1,29 @@
+.search-form{
+    top: 0px;
+    position: fixed; 
+    height: 60px;
+    width: 100%;   
+    background-color: rgb(2, 46, 168);  
+     display: flex;
+    justify-content: center;  
+    align-items: center;
+}
+.search-form__input{   
+    width: 400px;
+    height: 40px;
+    border: none;
+    border-radius: 4px;
+    outline: none;
+}
+
+.button-submit{
+    height: 40px;
+    width: 30px;
+    margin-left: -30px;
+    border: none;   
+    border-radius: 4px;
+    background-image: url(../images/search.svg);
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+}
