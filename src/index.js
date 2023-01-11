@@ -57,7 +57,7 @@ async function getData() {
     loadHits += response.data.hits.length;
     console.log(response.data.totalHits);
     console.log(loadHits);
-    if (loadHits === response.data.totalHits) {
+    if (loadHits === response.data.totalHits && response.data.hits.length > 0) {
       btnLoad.classList.add("is-hidden"); 
       Notiflix.Notify.info("We're sorry, but you've reached the end of search results.");   
     }
