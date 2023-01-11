@@ -22,19 +22,19 @@ btnSubmit.textContent = "";
 btnLoad.classList.add("is-hidden");
 
 let name = "";
+let page = 1;
 
 function interfaceUpdate(galleryItems){
   const list = document.querySelector(".gallery");
   console.log(galleryItems[0].tags);
-  const markup = galleryItems.map((image) => templateMarkup(image.webformatURL,image.likes,image.views,image.comments,image.downloads)).join("");
+  const markup = galleryItems.map((image) => templateMarkup(image.largeImageURL,image.webformatURL,image.likes,image.views,image.comments,image.downloads)).join("");
 
-  list.insertAdjacentHTML("afterbegin", markup);
+  list.insertAdjacentHTML("beforeend", markup);
 
   let lightbox = new SimpleLightbox('.gallery a');
 }
 
-async function getData() {
-  gallery.innerHTML = ""; 
+async function getData() {  
   if (searchInput.value.trim() === ""){
     Notiflix.Notify.failure('Oops, there is no images with that name');     
     return;  
@@ -42,10 +42,10 @@ async function getData() {
   try {
     //console.log(instance);         
     name = searchInput.value.trim();       
-    const response = await instance.get('/?key='+AUTH_TOKEN+'&q='+name+PER_PAGE+'&page=1');
+    const response = await instance.get('/?key='+AUTH_TOKEN+'&q='+name+PER_PAGE+'&page='+page);
+    page += 1;
     console.log(response.data.hits);
-    interfaceUpdate(response.data.hits);
-    
+    interfaceUpdate(response.data.hits);    
   } catch (error) {
     Notiflix.Notify.failure('Oops, there is no images with that name');   
     console.error(error);
@@ -54,9 +54,16 @@ async function getData() {
 
 const search = (e)=>{ 
   e.preventDefault();
+  gallery.innerHTML = ""; 
+  page = 1;
   btnLoad.classList.remove("is-hidden");  
+  getData();  
+};
+
+const loadMore = (e)=>{ 
   getData();  
 };
 // 
 searchForm.addEventListener("submit",search);
+btnLoad.addEventListener("click",loadMore );
 

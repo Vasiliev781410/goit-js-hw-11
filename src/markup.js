@@ -1,5 +1,5 @@
-export default function templateMarkup(pageURL,likes,views,comments,downloads){
-    const template = `<a href=${pageURL} class="photo-ref"><div class="photo-card">
+export default function templateMarkup(largeImageURL,pageURL,likes,views,comments,downloads){
+    const template = `<a href=${largeImageURL} class="photo-ref"><div class="photo-card">
     <img class="photo" src=${pageURL} alt="" loading="lazy" width="300" height="200">
     <div class="info">
       <p class="info-item">
