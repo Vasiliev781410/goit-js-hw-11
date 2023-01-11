@@ -27,6 +27,9 @@
     text-decoration: none;
     color: #000;
 }
+.photo{
+   object-fit: cover; 
+}
 .info{
     display: flex;
     gap: 10px;
