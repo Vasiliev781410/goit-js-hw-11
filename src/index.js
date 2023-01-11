@@ -39,24 +39,24 @@ async function getData() {
     Notiflix.Notify.failure('Oops, there is no images with that name');     
     return;  
  }     
-  try {
-    //console.log(instance);         
+  try {          
     name = searchInput.value.trim();       
     const response = await instance.get('/?key='+AUTH_TOKEN+'&q='+name+PER_PAGE+'&page='+page);
     page += 1;
     console.log(response.data.hits);
     interfaceUpdate(response.data.hits);    
   } catch (error) {
-    Notiflix.Notify.failure('Oops, there is no images with that name');   
+    btnLoad.classList.add("is-hidden"); 
+    Notiflix.Notify.failure('Sorry, there are no images matching your search query. Please try again.');   
     console.error(error);
   }
 };
 
 const search = (e)=>{ 
   e.preventDefault();
+  btnLoad.classList.remove("is-hidden"); 
   gallery.innerHTML = ""; 
-  page = 1;
-  btnLoad.classList.remove("is-hidden");  
+  page = 1; 
   getData();  
 };
 
@@ -65,5 +65,5 @@ const loadMore = (e)=>{
 };
 // 
 searchForm.addEventListener("submit",search);
-btnLoad.addEventListener("click",loadMore );
+btnLoad.addEventListener("click",loadMore);
 
