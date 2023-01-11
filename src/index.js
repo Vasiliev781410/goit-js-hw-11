@@ -10,6 +10,7 @@ const instance = axios.create({
   baseURL: 'https://pixabay.com/api'
  });
 const PER_PAGE = '&per_page=40';
+const otherParams = '&image_type=photo&orientation=horizontal&safesearch=true';
 
 const searchForm = document.querySelector(".search-form");
 const searchInput = document.querySelector('input[name="searchQuery"]');
@@ -23,11 +24,12 @@ btnLoad.classList.add("is-hidden");
 
 let name = "";
 let page = 1;
+let loadHits = 0;
 
 function interfaceUpdate(galleryItems){
   const list = document.querySelector(".gallery");
-  console.log(galleryItems[0].tags);
-  const markup = galleryItems.map((image) => templateMarkup(image.largeImageURL,image.webformatURL,image.likes,image.views,image.comments,image.downloads)).join("");
+  //console.log(galleryItems[0].tags);
+  const markup = galleryItems.map((image) => templateMarkup(image.largeImageURL,image.webformatURL,image.likes,image.views,image.comments,image.downloads,image.tags)).join("");
 
   list.insertAdjacentHTML("beforeend", markup);
 
@@ -41,9 +43,15 @@ async function getData() {
  }     
   try {          
     name = searchInput.value.trim();       
-    const response = await instance.get('/?key='+AUTH_TOKEN+'&q='+name+PER_PAGE+'&page='+page);
+    const response = await instance.get('/?key='+AUTH_TOKEN+'&q='+name+otherParams+PER_PAGE+'&page='+page);
     page += 1;
+    loadHits += response.data.hits.length;
     console.log(response.data.hits);
+    console.log(loadHits);
+    if (loadHits === response.data.totalHits) {
+      btnLoad.classList.add("is-hidden"); 
+      Notiflix.Notify.info("We're sorry, but you've reached the end of search results.");   
+    }
     interfaceUpdate(response.data.hits);    
   } catch (error) {
     btnLoad.classList.add("is-hidden"); 
