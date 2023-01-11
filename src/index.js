@@ -28,7 +28,7 @@ let loadHits = 0;
 
 function smoothScroll(){  
   const { height: cardHeight } = gallery.firstElementChild.getBoundingClientRect();
-  if (page > 2){
+  if (page > 1){
     window.scrollBy({
     top: cardHeight * 2,
     behavior: "smooth",    
@@ -54,7 +54,6 @@ async function getData() {
   try {          
     name = searchInput.value.trim();       
     const response = await instance.get('/?key='+AUTH_TOKEN+'&q='+name+otherParams+PER_PAGE+'&page='+page);
-    page += 1;
     loadHits += response.data.hits.length;
     console.log(response.data.totalHits);
     console.log(loadHits);
@@ -62,7 +61,8 @@ async function getData() {
       btnLoad.classList.add("is-hidden"); 
       Notiflix.Notify.info("We're sorry, but you've reached the end of search results.");   
     }
-    interfaceUpdate(response.data.hits);    
+    interfaceUpdate(response.data.hits);
+    page += 1;    
   } catch (error) {
     btnLoad.classList.add("is-hidden"); 
     Notiflix.Notify.failure('Sorry, there are no images matching your search query. Please try again.');   
