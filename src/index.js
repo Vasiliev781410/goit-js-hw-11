@@ -2,56 +2,26 @@
 import Notiflix from 'notiflix';
 import SimpleLightbox from "simplelightbox";
 import "simplelightbox/dist/simple-lightbox.min.css";
-//import {fetchData} from "./fetchData.js";
+import templateMarkup from "./markup.js";
 import axios from 'axios';
+
 const AUTH_TOKEN = '32700035-2643abb13134080679caa7410';
 const instance = axios.create({
   baseURL: 'https://pixabay.com/api'
  });
-
-
-const URL = 'https://pixabay.com/api/?key='+AUTH_TOKEN+'&q=';
 const PER_PAGE = '&per_page=40';
 
-searchForm = document.querySelector(".search-form");
+const searchForm = document.querySelector(".search-form");
+const searchInput = document.querySelector('input[name="searchQuery"]');
+const btnSubmit = document.querySelector('button[type="submit"]');
+const btnLoad = document.querySelector(".load-more");
+const gallery = document.querySelector(".gallery");
 
-searchInput = document.querySelector('input[name="searchQuery"]');
 searchInput.classList.add("search-form__input");
-
-btnSubmit = document.querySelector('button[type="submit"]');
 btnSubmit.textContent = "";
-
-btnLoad = document.querySelector(".load-more");
 btnLoad.classList.add("is-hidden");
-gallery = document.querySelector(".gallery");
 
 let name = "";
-
-function templateMarkup(pageURL,likes,views,comments,downloads){
-  const template = `<a href=${pageURL} class="photo-ref"><div class="photo-card">
-  <img src=${pageURL} alt="" loading="lazy" width="300" height="200">
-  <div class="info">
-    <p class="info-item">
-      <b>Likes</b> 
-      <br>${likes}
-    </p>   
-    <p class="info-item">
-      <b>Views</b>
-      <br>${views}
-    </p>
-    <p class="info-item">
-      <b>Comments</b>
-      <br>${comments}
-    </p>
-    <p class="info-item">
-      <b>Downloads</b>
-      <br>${downloads}
-    </p>
-  </div>
-  </div></a>`;
-
- return template;
-}
 
 function interfaceUpdate(galleryItems){
   const list = document.querySelector(".gallery");
@@ -82,49 +52,11 @@ async function getData() {
   }
 };
 
-function search(){ 
-  name = searchInput.value.trim(); 
-  fetchData(name);
-};
-
-//function search(){ 
-    //console.log("search",searchInput.value);     
-    //if (searchInput.value.trim() === ""){
-    //   countryList.innerHTML = ""; 
-    //   countryInfo.innerHTML = ""; 
-    //console.log("search1");
-    //}     
-    // if (searchInput.value.trim() === "" || searchInput.value.trim() === name){ 
-        // console.log("search2"); 
-    //   return;
-    // }  
-   // name = searchInput.value.trim(); 
-    // countryList.innerHTML = "";  
-    // countryInfo.innerHTML = "";     
-      // fetchData(name);
-        // .then(response => {
-          // if (!response.ok) {      
-            // throw new Error(response.status);                    
-          // }        
-          // return response.json();
-        // })
-        // .then(data => {              
-          // if (data.length > 10) {
-            // Notiflix.Notify.info('Too many matches found. Please enter a more specific name.');                  
-            // return;
-          // };
-          // console.log(data.hits);       
-        // })
-        // .catch(error => {          
-          // Notiflix.Notify.failure('Oops, there is no country with that name');        
-        // });
-  //};
-  
-
-
-searchForm.addEventListener("submit",(e) => {   
+const search = (e)=>{ 
   e.preventDefault();
   btnLoad.classList.remove("is-hidden");  
-  getData();       
-});
+  getData();  
+};
+// 
+searchForm.addEventListener("submit",search);
 
