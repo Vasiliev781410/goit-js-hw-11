@@ -18,6 +18,7 @@ const btnSubmit = document.querySelector('button[type="submit"]');
 const btnLoad = document.querySelector(".load-more");
 const gallery = document.querySelector(".gallery");
 
+
 searchInput.classList.add("search-form__input");
 btnSubmit.textContent = "";
 btnLoad.classList.add("is-hidden");
@@ -32,8 +33,14 @@ function interfaceUpdate(galleryItems){
   const markup = galleryItems.map((image) => templateMarkup(image.largeImageURL,image.webformatURL,image.likes,image.views,image.comments,image.downloads,image.tags)).join("");
 
   list.insertAdjacentHTML("beforeend", markup);
+  const { height: cardHeight } = gallery.firstElementChild.getBoundingClientRect();
+  window.scrollBy({
+    top: cardHeight * 2,
+    behavior: "smooth",
+  });
 
   let lightbox = new SimpleLightbox('.gallery a');
+  lightbox.refresh();
 }
 
 async function getData() {  
@@ -68,7 +75,7 @@ const search = (e)=>{
   getData();  
 };
 
-const loadMore = (e)=>{ 
+const loadMore = (e)=>{    
   getData();  
 };
 // 
