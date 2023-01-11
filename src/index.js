@@ -18,7 +18,6 @@ const btnSubmit = document.querySelector('button[type="submit"]');
 const btnLoad = document.querySelector(".load-more");
 const gallery = document.querySelector(".gallery");
 
-
 searchInput.classList.add("search-form__input");
 btnSubmit.textContent = "";
 btnLoad.classList.add("is-hidden");
@@ -27,18 +26,22 @@ let name = "";
 let page = 1;
 let loadHits = 0;
 
+function smoothScroll(){  
+  const { height: cardHeight } = gallery.firstElementChild.getBoundingClientRect();
+  if (page > 2){
+    window.scrollBy({
+    top: cardHeight * 2,
+    behavior: "smooth",    
+    }); 
+  };
+}
+
 function interfaceUpdate(galleryItems){
   const list = document.querySelector(".gallery");
   //console.log(galleryItems[0].tags);
   const markup = galleryItems.map((image) => templateMarkup(image.largeImageURL,image.webformatURL,image.likes,image.views,image.comments,image.downloads,image.tags)).join("");
-
   list.insertAdjacentHTML("beforeend", markup);
-  const { height: cardHeight } = gallery.firstElementChild.getBoundingClientRect();
-  window.scrollBy({
-    top: cardHeight * 2,
-    behavior: "smooth",
-  });
-
+  smoothScroll();
   let lightbox = new SimpleLightbox('.gallery a');
   lightbox.refresh();
 }
@@ -53,7 +56,7 @@ async function getData() {
     const response = await instance.get('/?key='+AUTH_TOKEN+'&q='+name+otherParams+PER_PAGE+'&page='+page);
     page += 1;
     loadHits += response.data.hits.length;
-    console.log(response.data.hits);
+    console.log(response.data.totalHits);
     console.log(loadHits);
     if (loadHits === response.data.totalHits) {
       btnLoad.classList.add("is-hidden"); 
@@ -71,7 +74,8 @@ const search = (e)=>{
   e.preventDefault();
   btnLoad.classList.remove("is-hidden"); 
   gallery.innerHTML = ""; 
-  page = 1; 
+  page = 1;
+  loadHits = 0; 
   getData();  
 };
 
