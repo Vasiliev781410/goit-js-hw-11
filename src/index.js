@@ -61,6 +61,9 @@ async function getData() {
       btnLoad.classList.add("is-hidden"); 
       Notiflix.Notify.info("We're sorry, but you've reached the end of search results.");   
     }
+    if (page === 1){
+      btnLoad.classList.remove("is-hidden");
+    }
     interfaceUpdate(response.data.hits);
     page += 1;    
   } catch (error) {
@@ -71,8 +74,7 @@ async function getData() {
 };
 
 const search = (e)=>{ 
-  e.preventDefault();
-  btnLoad.classList.remove("is-hidden"); 
+  e.preventDefault();  
   gallery.innerHTML = ""; 
   page = 1;
   loadHits = 0; 
